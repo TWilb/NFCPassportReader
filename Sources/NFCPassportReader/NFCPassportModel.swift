@@ -44,20 +44,20 @@ public class NFCPassportModel {
         return name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }()
 
-    public private(set) lazy var lastNameMrz : String = {
-        return namesMrz[0].replacingOccurrences(of: "<", with: " " )
+    public private(set) lazy var lastNameDg1 : String = {
+        return namesDg1[0].replacingOccurrences(of: "<", with: " " )
     }()
 
-    public private(set) lazy var firstNameMrz : String = {
+    public private(set) lazy var firstNameDg1 : String = {
         var name = ""
-        for i in 1 ..< namesMrz.count {
-            let fn = namesMrz[i].replacingOccurrences(of: "<", with: " " ).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        for i in 1 ..< namesDg1.count {
+            let fn = namesDg1[i].replacingOccurrences(of: "<", with: " " ).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             name += fn + " "
         }
         return name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }()
 
-    private lazy var namesMrz : [String] = {
+    private lazy var namesDg1 : [String] = {
         return (passportDataElements?["5B"] ?? "?").components(separatedBy: "<<")
     }()
     
