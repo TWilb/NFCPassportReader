@@ -227,13 +227,13 @@ public class TagReader {
             _ = try await send( cmd: cmdMfSelect)
         } catch is NFCPassportReaderError {
             Log.info("Could not select MF at F000000003. Next try 3F00.")
+            
+            // First select master file
+            let cmd : NFCISO7816APDU = NFCISO7816APDU(instructionClass: 0x00, instructionCode: 0xA4, p1Parameter: 0x00, p2Parameter: 0x0C, data: Data([0x3f,0x00]), expectedResponseLength: -1)
+            
+            _ = try await send( cmd: cmd)
+            
         }
-        
-        
-        // First select master file
-        let cmd : NFCISO7816APDU = NFCISO7816APDU(instructionClass: 0x00, instructionCode: 0xA4, p1Parameter: 0x00, p2Parameter: 0x0C, data: Data([0x3f,0x00]), expectedResponseLength: -1)
-        
-        _ = try await send( cmd: cmd)
             
         // Now read EC.CardAccess
         let data = try await self.selectFileAndRead(tag: [0x01,0x1C])
